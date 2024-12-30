@@ -1,0 +1,30 @@
+This error occurs when using Expo CLI to build an Android APK. The error message is usually vague and unhelpful, such as "Execution failed for task ':app:processDebugResources'.".  The root cause is often a mismatch between the version of the Android Gradle Plugin (AGP) used by your project and the version supported by Expo.  Sometimes, it might involve conflicts with other dependencies or incorrect configurations in your `gradle` files.  Example of a Gradle file that might trigger the issue: 
+```gradle
+apply plugin: 'com.android.application'
+
+android {
+    compileSdk 33
+    defaultConfig {
+        applicationId "com.example.myapp"
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    // Incorrect AGP version or conflict
+    // ... 
+}
+dependencies {
+    implementation 'com.example:some-library:1.0.0'
+    // ...
+}
